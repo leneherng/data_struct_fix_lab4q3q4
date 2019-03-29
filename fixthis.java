@@ -2,16 +2,26 @@
 //////////////////////////// Q U E S T I O N  3 //////////////////////////
 
     @Override
-    public ArrayBag<T> intersection(ArrayBag<T> aSet) {
+    public ArrayBag<T> intersection(ArrayBag<T> aBag) {
         
         ArrayBag<T> inter = new ArrayBag();
-        ArrayBag<T> setA = this;
-        ArrayBag<T> setB = aSet;      
+        ArrayBag<T> setA = new ArrayBag();
+        ArrayBag<T> setB = new ArrayBag();
+        
+        //Copy items from the original bag to another bag
+        for(int i=0; i<numberOfEntries; i++) {
+            setA.add(bag[i]);
+        }
+        
+        for(int i=0; i<aBag.numberOfEntries; i++) {
+            setB.add(aBag.bag[i]);
+        }
+        
         int i=0;
         while(i<setA.numberOfEntries){
             int j=0;
             while(j<setB.numberOfEntries){
-                if(setA.contains(setB.bag[j])){//setA and B at [j] is ==
+                if(setA.bag[i]==setB.bag[j]) {
                     inter.add(setB.bag[j]);
                     setA.remove(setB.bag[j]);
                     setB.remove(setB.bag[j]);
@@ -28,20 +38,38 @@
 //////////////////////////// Q U E S T I O N  4 //////////////////////////
 
     @Override
-    public ArrayBag<T> difference(ArrayBag<T> aSet) {
+    public ArrayBag<T> difference(ArrayBag<T> aBag) {
         
-        ArrayBag<T> diff = this.intersection(aSet);
-        ArrayBag<T> setA = this;
+        ArrayBag<T> diff = new ArrayBag();
+        ArrayBag<T> setA = new ArrayBag();
+        ArrayBag<T> setB = new ArrayBag();
+        
+        //Copy items from the original bag to another bag
+        for(int i=0; i<numberOfEntries; i++) {
+            setA.add(bag[i]);
+        }
+        
+        for(int i=0; i<aBag.numberOfEntries; i++) {
+            setB.add(aBag.bag[i]);
+        }
         
         int i=0;
         while(i<setA.numberOfEntries){
-            if(setA.contains(diff.bag[i])){
-                setA.remove(diff.bag[i]);
+            int j =0;
+            while(j<setB.numberOfEntries) {
+                if(setA.bag[i]==setB.bag[j]) {
+                    setA.remove(setA.bag[i]);
+                    setB.remove(setA.bag[i]);
+                    break;
+                } else j++;
             }
-            else
+            if(j==setB.numberOfEntries) {
                 i++;
+            }
+          
         }
-        
-        return setA;
- 
+        for(int k=0;k<setA.numberOfEntries;k++) {
+            diff.add(setA.bag[k]);
+        }
+        return diff;
     }
